@@ -1,1 +1,1 @@
-Laravel:transações, service container e autenticação
+Laravel:transações, service container e autenticação breeze

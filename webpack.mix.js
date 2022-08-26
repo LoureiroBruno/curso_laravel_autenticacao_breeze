@@ -16,10 +16,14 @@ const mix = require('laravel-mix');
 //         //
 //     ]);
 
-mix
-.sass('resources/css/app.scss', 'public/css')
-// .js('resources/js/app.js', 'public/js')
+// mix
+// .sass('resources/css/app.scss', 'public/css')
+// // .js('resources/js/app.js', 'public/js')
 
-// .postCss('resources/css/app.css', 'public/css', [
-//     //
-// ]);
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/css/estilos.scss', 'public/css')
+    .postCss('resources/css/app.css', 'public/css', [
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer'),
+    ]);

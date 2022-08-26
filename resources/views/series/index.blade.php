@@ -1,4 +1,4 @@
-<x-layout>
+<x-app-layout>
     <x-slot:title>
         {{-- Series - Listar Itens --}}
         {{ __('messages.app_name') }}
@@ -7,111 +7,90 @@
             Exibir todas as Séries
             </x-slot>
 
-            @if (Auth::check())
-                <a href="{{ route('series.create') }}" class="btn btn-warning mb-4" tabindex="-1" role="button"
-                    aria-disabled="true" title="Criar Nova Série">Registrar</a>
-            @else
-                <a href="{{ route('series.create') }}" class="btn btn-warning mb-4 disabled" tabindex="-1" role="button" aria-disabled="true"
-                    aria-disabled="true" title="Criar Nova Série">Registrar</a>
-            @endif
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <a href="{{ route('series.create') }}" class="btn btn-warning mb-4" tabindex="-1" role="button"
+                        aria-disabled="true" title="Criar Nova Série">Registrar</a>
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            <table id="tabela-series" class="table table-hover">
+                                <thead class="thead-tabela-series-topo">
+                                    <tr class="th-tabela-series">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Detalhes</th>
+                                        <th scope="col">Data de Inscrição</th>
+                                        <th scope="col">Data de Edição</th>
+                                        <th scope="col" class="col-2" id="th-coluna-acoes-tabela-series">Painel de
+                                            Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($series as $serie)
+                                        <tr>
+                                            <th scope="row">{{ $serie->id }}</th>
+                                            <td>{{ $serie->nome }}</td>
+                                            <td>
+                                                <form action="{{ route('seasons.index', $serie->id) }}" method="get">
+                                                    @csrf
 
-            <table id="tabela-series" class="table table-hover">
-                <thead class="thead-tabela-series-topo">
-                    <tr class="th-tabela-series">
-                        <th scope="col">#</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">Detalhes</th>
-                        <th scope="col">Data de Inscrição</th>
-                        <th scope="col">Data de Edição</th>
-                        <th scope="col" class="col-2" id="th-coluna-acoes-tabela-series">Painel de Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($series as $serie)
-                        <tr>
-                            <th scope="row">{{ $serie->id }}</th>
-                            <td>{{ $serie->nome }}</td>
-                            <td>
-                                <form action="{{ route('seasons.index', $serie->id) }}" method="get">
-                                    @csrf
-                                    @if (Auth::check())
-                                    <button type="submit" class="btn btn-link">
-                                        <img class="img-tabela-series" src="{{ asset('img/detalhes.svg') }}"
-                                            title="Clique aqui para mais detalhes" />
-                                    </button>
-                                    @else 
-                                    <button type="submit" class="btn btn-link" disabled>
-                                        <img class="img-tabela-series" src="{{ asset('img/detalhes.svg') }}"
-                                            title="Clique aqui para mais detalhes" />
-                                    </button>
-                                    @endif
-                                </form>
-                            </td>
-                            <td>{{ $serie->created_at }}</td>
-                            <td>{{ $serie->updated_at }}</td>
-                            <td id="td-coluna-acoes-tabela-series">
-                                <div>
-                                    @if (Auth::check())
-                                        <form action="{{ route('series.edit', $serie->id) }}" method="get"
-                                            id="btn-update">
-                                            @csrf
-                                            @method('EDIT')
-                                            <button type="submit" class="btn btn-outline-secondary btn-sm mb-1 ms-1"
-                                                title="{{ $serie->nome }}">
-                                                <img src="{{ asset('img/pencil.svg') }}" />
-                                                Editar
-                                            </button>
-                                        </form>
+                                                    <button type="submit" class="btn btn-link">
+                                                        <img class="img-tabela-series"
+                                                            src="{{ asset('img/detalhes.svg') }}"
+                                                            title="Clique aqui para mais detalhes" />
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td>{{ $serie->created_at }}</td>
+                                            <td>{{ $serie->updated_at }}</td>
+                                            <td id="td-coluna-acoes-tabela-series">
+                                                <div>
+                                                    <form action="{{ route('series.edit', $serie->id) }}" method="get"
+                                                        id="btn-update">
+                                                        @csrf
+                                                        @method('EDIT')
+                                                        <button type="submit"
+                                                            class="btn btn-outline-secondary btn-sm mb-1 ms-1"
+                                                            title="{{ $serie->nome }}">
+                                                            <img src="{{ asset('img/pencil.svg') }}" />
+                                                            Editar
+                                                        </button>
+                                                    </form>
 
-                                        <form action="{{ route('series.destroy', $serie->id) }}" method="post"
-                                            id="btn-destroy" title="{{ $serie->nome }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-sm mb-1">
-                                                <img src="{{ asset('img/trash.svg') }}" />
-                                                Excluir
-                                            </button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('series.edit', $serie->id) }}" method="get"
-                                            id="btn-update">
-                                            @csrf
-                                            @method('EDIT')
-                                            <button type="submit" class="btn btn-outline-secondary btn-sm mb-1 ms-1"
-                                                title="{{ $serie->nome }}" disabled>
-                                                <img src="{{ asset('img/pencil.svg') }}" />
-                                                Editar
-                                            </button>
-                                        </form>
+                                                    <form action="{{ route('series.destroy', $serie->id) }}"
+                                                        method="post" id="btn-destroy" title="{{ $serie->nome }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-outline-danger btn-sm mb-1">
+                                                            <img src="{{ asset('img/trash.svg') }}" />
+                                                            Excluir
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <thead class="thead-tabela-series-footer">
+                                    <tr class="th-tabela-series">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Detalhes</th>
+                                        <th scope="col">Data de Inscrição</th>
+                                        <th scope="col">Data de Edição</th>
+                                        <th scope="col" class="col-2" id="th-coluna-acoes-tabela-series">Painel de
+                                            Ações</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                        <form action="{{ route('series.destroy', $serie->id) }}" method="post"
-                                            id="btn-destroy" title="{{ $serie->nome }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-sm mb-1" disabled>
-                                                <img src="{{ asset('img/trash.svg') }}" />
-                                                Excluir
-                                            </button>
-                                        </form>
-                                    @endif
 
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                <thead class="thead-tabela-series-footer">
-                    <tr class="th-tabela-series">
-                        <th scope="col">#</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">Detalhes</th>
-                        <th scope="col">Data de Inscrição</th>
-                        <th scope="col">Data de Edição</th>
-                        <th scope="col" class="col-2" id="th-coluna-acoes-tabela-series">Painel de Ações</th>
-                    </tr>
-                </thead>
-            </table>
-</x-layout>
+</x-app-layout>
 
 <script>
     $(document).ready(function() {
