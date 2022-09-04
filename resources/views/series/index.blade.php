@@ -9,6 +9,19 @@
 
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            <img src="{{ asset('img/check-lg.svg') }}" />
+                            {{ session('success') }}
+        
+                        </div>
+                    @elseif (session('danger'))
+                        <div class="alert alert-danger">
+                            <img src="{{ asset('img/info.svg') }}" />
+                            {{ session('danger') }}
+                        </div>
+                    @endif
+
                     <a href="{{ route('series.create') }}" class="btn btn-warning mb-4" tabindex="-1" role="button"
                         aria-disabled="true" title="Criar Nova Série">Registrar</a>
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

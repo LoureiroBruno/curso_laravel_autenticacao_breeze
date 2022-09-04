@@ -24,6 +24,6 @@ class EpisodesController extends Controller
         });
         $season->push();
 
-        return to_route('episodes.index', $season->id)->with("success", "Atualizado o(s) episódio(s) com sucesso!");
+        return to_route('episodes.index', $season->id)->with("success", "Marcado como visualizado(s) o(s) episódio(s) com sucesso!");
     }
 }

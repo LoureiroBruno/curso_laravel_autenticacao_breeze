@@ -9,6 +9,10 @@ nav {
     margin-bottom: 20px;
 }
 
+.alert.alert-success {
+    display: block ruby !important;
+}
+
 h1 {
     background: currentColor;
     padding-bottom: 80px;
